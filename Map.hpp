@@ -16,8 +16,8 @@ struct Vertex {
 
 class Map {
 public:
-    Map(int size);
-    void draw();
+    Map(int size, float freq, int depth, int heightScale, int seed);
+    void draw(glm::mat4 viewMat, glm::mat4 projMat);
 private:
     unsigned int VAO, VBO, EBO;
     Vertex getVertex(const glm::vec2 position, float freq, int depth, int heightScale);

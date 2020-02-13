@@ -18,7 +18,7 @@ float lastFrame;
 
 int main() {
     GLFWwindow *window = initGL();
-    Map map(100);
+    Map map(100, 0.06, 4, 30, 2044);
 
     while (!glfwWindowShouldClose(window)) {
         // Calculate delta time.
@@ -32,7 +32,13 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        map.draw();
+        glm::mat4 viewMatrix = glm::lookAt(glm::vec3(-20.0f, 50.0f, 20.0f),
+                    glm::vec3(50.0, 0.0, -50.0),
+                    glm::vec3(0.0, 1.0, 0.0));
+        glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f),
+                (float) WIDTH / (float) HEIGHT, 0.1f, 100.0f);
+
+        map.draw(viewMatrix, projMatrix);
 
         // Flip the buffers and check for events.
         glfwSwapBuffers(window);

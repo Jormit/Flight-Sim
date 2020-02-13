@@ -15,16 +15,16 @@ static int mHash[] = {208,34,231,213,32,248,233,56,161,78,24,140,71,48,140,254,2
                       135,176,183,191,253,115,184,21,233,58,129,233,142,39,128,211,118,137,139,255,
                       114,20,218,113,154,27,127,246,250,1,8,198,250,209,92,222,173,21,88,102,219};
 
-Map::Map (int size) : shader("../shaders/map/vect.glsl", "../shaders/map/frag.glsl") {
+Map::Map (int size, float freq, int depth, int heightScale, int seed) : shader("../shaders/map/vect.glsl", "../shaders/map/frag.glsl") {
 
     std::vector<Vertex> vertices;
     std::vector<int> index;
-
     this->size = size;
+    SEED = seed;
 
     for (int y = 0; y < size; y++) {
         for (int x = 0; x < size; x++) {
-            vertices.push_back(getVertex(glm::vec2((float)x, (float)y), 0.07, 4, 20));
+            vertices.push_back(getVertex(glm::vec2((float)x, (float)y), freq, depth, heightScale));
             //printf("x: %f y: %f z: %f\n", vertices.back().position.x, vertices.back().position.y, vertices.back().position.z);
         }
     }
@@ -78,12 +78,10 @@ Vertex Map::getVertex(const glm::vec2 position, float freq, int depth, int heigh
     return v;
 }
 
-void Map::draw(){
+void Map::draw(glm::mat4 viewMat, glm::mat4 projMat){
     shader.use();
-    shader.setMat4("view", glm::lookAt(glm::vec3(-20.0f, 50.0f, 20.0f),
-                                       glm::vec3(50.0, 0.0, -50.0),
-                                       glm::vec3(0.0, 1.0, 0.0)));
-    shader.setMat4("projection", glm::perspective(glm::radians(45.0f), (float) 980 / (float) 620, 0.1f, 100.0f));
+    shader.setMat4("view", viewMat);
+    shader.setMat4("projection", projMat);
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, (size - 1) * (size - 1) * 2 * 3, GL_UNSIGNED_INT, NULL);
