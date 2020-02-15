@@ -18,7 +18,7 @@ float lastFrame;
 
 int main() {
     GLFWwindow *window = initGL();
-    Map map(100, 0.06, 4, 30, 2044);
+    Map map(100, 0.06, 4, 20, 2, 10);
 
     while (!glfwWindowShouldClose(window)) {
         // Calculate delta time.
@@ -32,13 +32,13 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 viewMatrix = glm::lookAt(glm::vec3(-20.0f, 50.0f, 20.0f),
+        glm::mat4 viewMatrix = glm::lookAt(glm::vec3(-10.0f, 50.0f, 10.0f),
                     glm::vec3(50.0, 0.0, -50.0),
                     glm::vec3(0.0, 1.0, 0.0));
         glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f),
-                (float) WIDTH / (float) HEIGHT, 0.1f, 100.0f);
+                (float) WIDTH / (float) HEIGHT, 0.1f, 1000.0f);
 
-        map.draw(viewMatrix, projMatrix);
+        map.draw(viewMatrix, projMatrix, glm::vec4(0.0, 100.0, 0.0, 1.0));
 
         // Flip the buffers and check for events.
         glfwSwapBuffers(window);
@@ -55,7 +55,7 @@ GLFWwindow* initGL() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(WIDTH, HEIGHT, "BlockEngine", NULL, NULL);
+    window = glfwCreateWindow(WIDTH, HEIGHT, "FlightSim", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
