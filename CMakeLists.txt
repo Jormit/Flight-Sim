@@ -8,4 +8,6 @@ add_executable(FlightSim ${SOURCES} glad/glad.c)
 
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 target_link_libraries(FlightSim -L${LIB_DIR})
+
 target_link_libraries(FlightSim libglfw3dll.a)
+target_link_libraries(FlightSim freetype.lib)
