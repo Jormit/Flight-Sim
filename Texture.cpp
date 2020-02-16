@@ -24,13 +24,13 @@ Texture::Texture(const char* file) {
         } else if (nrChannels == 4) {
             glTexImage2D(texture.type, 0, GL_RGBA, tex_width, tex_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         } else {
-            cerr << "Invalid number of channels in " << file << endl;
+            cerr << "ERROR: " << "Invalid number of channels in " << file << endl;
             exit(1);
         }
         glGenerateMipmap(texture.type);
     }
     else {
-        cerr << "Could not load texture: " << file << endl;
+        cerr << "ERROR: " << "Could not load texture: " << file << endl;
         exit(1);
     }
     stbi_image_free(data);

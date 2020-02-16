@@ -18,6 +18,7 @@ public:
     void setInt(const char *name, int a);
     void setMat4(const char *name, glm::mat4 matrix);
     void setVec4 (const char *name, glm::vec4 vector);
+    unsigned int getId();
     unsigned int shaderProgram;
 private:
     unsigned int vertexShader, fragShader;

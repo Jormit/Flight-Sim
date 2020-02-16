@@ -44,14 +44,13 @@ void Shader::compile(const char* Path, GLenum type, unsigned int *handle)
 
     if(!success)
     {
-        cerr << "Could not compile!" << endl;
         if (type == GL_VERTEX_SHADER){
             glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            cerr << "Vert shader could not compile" << endl;
+            cerr << "ERROR: " << "Vert shader could not compile:" << endl;
             cerr << infoLog << endl;
         } else if (type == GL_FRAGMENT_SHADER) {
             glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
-            cerr << "Frag shader could not compile" << endl;
+            cerr << "ERROR: "<< "Frag shader could not compile:" << endl;
             cerr << infoLog << endl;
         }
         exit(1);
@@ -73,7 +72,7 @@ void Shader::linkShaders()
 
     if(!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        cerr << "Could not link!" << endl;
+        cerr << "ERROR: " << "Could not link shaders: " << infoLog << endl;
         exit(1);
     }
 
@@ -94,7 +93,8 @@ int Shader::readFile(const char* filename, std::vector<char>& buffer)
         }
         buffer.push_back('\0');
     } else {
-        cerr << filename << "does not exist." << endl;
+        cerr << "ERROR: " << filename << " does not exist." << endl;
+        exit(1);
     }
 }
 
@@ -111,4 +111,8 @@ void Shader::setVec4 (const char *name, glm::vec4 vector) {
 void Shader::setInt(const char *name, int a)
 {
     glUniform1i(glGetUniformLocation(shaderProgram, name), a);
+}
+
+unsigned int Shader::getId(){
+   return shaderProgram;
 }

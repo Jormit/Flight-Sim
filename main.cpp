@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Map.hpp"
+#include "Text.hpp"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ float lastFrame;
 int main() {
     GLFWwindow *window = initGL();
     Map map(100, 0.06, 4, 20, 2, 10);
+    Text text(WIDTH, HEIGHT, "../assets/fonts/monospace.ttf");
 
     while (!glfwWindowShouldClose(window)) {
         // Calculate delta time.
@@ -39,6 +41,8 @@ int main() {
                 (float) WIDTH / (float) HEIGHT, 0.1f, 1000.0f);
 
         map.draw(viewMatrix, projMatrix, glm::vec4(0.0, 100.0, 0.0, 1.0));
+
+        text.renderText("Hello", 25.0f, 25.0f, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
 
         // Flip the buffers and check for events.
         glfwSwapBuffers(window);
@@ -76,6 +80,9 @@ GLFWwindow* initGL() {
     }
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     return window;
 }
 

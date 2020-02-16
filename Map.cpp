@@ -33,7 +33,9 @@ tree1(R"(..\assets\tree\Fir.obj)", R"(C:\Users\jordan\ClionProjects\FlightSim\as
     shader.setInt("texture3", 2);
     shader.setInt("texture4", 3);
 
-    tree1.setModelTransformation(glm::translate(glm::vec3(20.0f, 10.0f, -20.0f))  * glm::scale(glm::vec3(0.01f, 0.01f, 0.01f)));
+    tree1.setModelTransformation(
+            glm::translate(glm::vec3(20.0f, 10.0f, -20.0f)) *
+            glm::scale(glm::vec3(0.01f, 0.01f, 0.01f)));
 
     std::vector<Vertex> vertices;
     std::vector<int> index;
@@ -49,13 +51,14 @@ tree1(R"(..\assets\tree\Fir.obj)", R"(C:\Users\jordan\ClionProjects\FlightSim\as
     // Setup indices to match with vertices.
     for (int y = 0; y < size - 1; y++) {
         for (int x = 0; x < size - 1; x++) {
+            // Must be wound counter clockwise for back-face culling to work properly.
             index.push_back(x + size * y);
             index.push_back(x + 1 + size * y);
             index.push_back(size * (y + 1) + x);
 
             index.push_back(x + 1 + size * y);
-            index.push_back(size * (y + 1) + x);
             index.push_back(size * (y + 1) + 1 + x);
+            index.push_back(size * (y + 1) + x);
         }
     }
 
@@ -189,4 +192,3 @@ float perlin2d(float x, float y, float freq, int depth, int seed)
 
     return fin/div;
 }
-
